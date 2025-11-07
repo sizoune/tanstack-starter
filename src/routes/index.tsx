@@ -12,7 +12,7 @@ const HomePage = () => {
 
 export const Route = createFileRoute(ROUTES.HOME)({
   head: () => ({
-    meta: [{ title: APP.NAME }]
+    meta: [{ title: `${APP.NAME} | Home` }]
   }),
   pendingComponent: () => {
     return <LoadingScreen />
