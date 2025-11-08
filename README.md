@@ -4,6 +4,13 @@
 
 Full-stack starter template for [TanStack Start](https://tanstack.com/start/latest) applications, batteries included. Inspired by [`dotnize/react-tanstarter`](https://github.com/dotnize/react-tanstarter).
 
+This template includes the following:
+
+- [TanStack Start](https://tanstack.com/start/latest) as the framework with the [React](https://react.dev/) adapter
+- [Drizzle ORM](https://orm.drizzle.team/) for database operations and schemas
+- [Better Auth](https://www.better-auth.com/) for authentication and authorization
+- [ShadCN/UI](https://ui.shadcn.com/) for consistent design language
+
 ## Development
 
 To quickly get started, see the [`quick start`](./docs/development/quick-start.md) guide.
