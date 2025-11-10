@@ -10,4 +10,8 @@ if bun run validate; then
     exit 0
 fi
 
+if deno task validate; then
+    exit 0
+fi
+
 exit 1
