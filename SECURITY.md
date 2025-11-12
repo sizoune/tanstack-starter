@@ -9,4 +9,4 @@
 
 ## Reporting a Vulnerability
 
-Contact the maintainers.
+Contact [CODEOWNERS](./.github/CODEOWNERS) or [@jackytea](https://github.com/jackytea).
