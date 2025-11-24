@@ -3,7 +3,7 @@ import type { Session } from 'better-auth'
 import { betterAuth } from 'better-auth'
 import { drizzleAdapter } from 'better-auth/adapters/drizzle'
 import { customSession } from 'better-auth/plugins'
-import { reactStartCookies } from 'better-auth/react-start'
+import { tanstackStartCookies } from 'better-auth/tanstack-start'
 import { database } from '@/database/config/database.config'
 import { readAccountByUserIdAndProviderId, updateAccounts } from '@/database/providers/accounts.provider'
 import type { AuthProviderWithEmail } from '@/types/auth.type'
@@ -33,7 +33,7 @@ const auth = createServerOnlyFn(() =>
   betterAuth({
     baseURL: process.env.VITE_BASE_URL as string,
     plugins: [
-      reactStartCookies(),
+      tanstackStartCookies(),
       customSession(async ({ user, session }) => {
         return {
           user,
