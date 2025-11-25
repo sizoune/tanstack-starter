@@ -1,7 +1,7 @@
 import { and, eq, inArray } from 'drizzle-orm'
 import { sessions } from '@/database/schema/session.schema'
+import { updateRecords } from '@/lib/database/utils/database.utils'
 import type { SessionPayload } from '@/types/session.type'
-import { updateRecords } from '@/utils/database.utils'
 import { handleErrorWithArray } from '@/utils/function.utils'
 
 const updateSessions = async (

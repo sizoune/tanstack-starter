@@ -1,15 +1,15 @@
 import { and, eq, inArray, not } from 'drizzle-orm'
 import { accounts } from '@/database/schema/account.schema'
 import { users } from '@/database/schema/user.schema'
-import type { AccountPayload } from '@/types/account.type'
-import { firstElement } from '@/utils/array.utils'
 import {
   deleteRecords,
   queryMultipleRecords,
   querySingleRecord,
   querySingleRecordWithJoin,
   updateRecords
-} from '@/utils/database.utils'
+} from '@/lib/database/utils/database.utils'
+import type { AccountPayload } from '@/types/account.type'
+import { firstElement } from '@/utils/array.utils'
 import { handleErrorWithArray, handleErrorWithNull } from '@/utils/function.utils'
 
 const readAccounts = async (accountId: string) => {

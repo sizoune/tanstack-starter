@@ -1,15 +1,15 @@
 import { eq, inArray, SQL } from 'drizzle-orm'
 import { accounts } from '@/database/schema/account.schema'
 import { users } from '@/database/schema/user.schema'
-import type { UserPayload } from '@/types/user.type'
-import { firstElement } from '@/utils/array.utils'
 import {
   deleteRecords,
   insertRecords,
   queryMultipleRecords,
   querySingleRecordWithJoin,
   updateRecords
-} from '@/utils/database.utils'
+} from '@/lib/database/utils/database.utils'
+import type { UserPayload } from '@/types/user.type'
+import { firstElement } from '@/utils/array.utils'
 import { handleErrorWithArray, handleErrorWithNull } from '@/utils/function.utils'
 
 const readUsers = async (where?: SQL<unknown>) => {
