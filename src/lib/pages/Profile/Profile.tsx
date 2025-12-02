@@ -3,6 +3,7 @@ import { useRouter } from '@tanstack/react-router'
 import { useServerFn } from '@tanstack/react-start'
 import { X } from 'lucide-react'
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { logoutSession } from '@/auth/utils/auth.utils'
 import { LoadingSpinner } from '@/components/LoadingSpinner/LoadingSpinner'
 import { AppLayout } from '@/layouts/AppLayout/AppLayout'
@@ -18,6 +19,7 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectVa
 
 const Profile = ({ account }: { account: AccountWithImage | null }) => {
   const router = useRouter()
+  const { t } = useTranslation()
   const { queryClient } = RootRoute.useRouteContext()
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const deleteAccountServerFn = useServerFn(deleteAccount)
@@ -90,7 +92,7 @@ const Profile = ({ account }: { account: AccountWithImage | null }) => {
                       variant="outline"
                       className="cursor-pointer border-red-500 text-red-500"
                     >
-                      Delete Account
+                      {t('Delete Account')}
                     </Button>
                   </div>
                   <Select
@@ -120,7 +122,7 @@ const Profile = ({ account }: { account: AccountWithImage | null }) => {
         ) : (
           <>
             <X className="h-32 w-32 text-red-500" />
-            <p className="text-lg">Account Not Found</p>
+            <p className="text-lg">{t('Account Not Found')}</p>
           </>
         )}
       </div>
