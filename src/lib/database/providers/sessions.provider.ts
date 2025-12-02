@@ -1,6 +1,6 @@
 import { and, eq, inArray } from 'drizzle-orm'
 import { sessions } from '@/database/schema/session.schema'
-import { updateRecords } from '@/lib/database/utils/database.utils'
+import { updateRecords } from '@/database/utils/database.utils'
 import type { SessionPayload } from '@/types/session.type'
 import { handleErrorWithArray } from '@/utils/function.utils'
 

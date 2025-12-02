@@ -1,13 +1,13 @@
 import { and, eq, inArray, not } from 'drizzle-orm'
 import { accounts } from '@/database/schema/account.schema'
+import { organizations } from '@/database/schema/organization.schema'
 import { users } from '@/database/schema/user.schema'
 import {
   deleteRecords,
   queryMultipleRecords,
-  querySingleRecord,
   querySingleRecordWithJoin,
   updateRecords
-} from '@/lib/database/utils/database.utils'
+} from '@/database/utils/database.utils'
 import type { AccountPayload } from '@/types/account.type'
 import { firstElement } from '@/utils/array.utils'
 import { handleErrorWithArray, handleErrorWithNull } from '@/utils/function.utils'
@@ -47,16 +47,27 @@ const readAccountsByUserId = async (userId: string) => {
 
 const readAccount = async (accountId: string) => {
   return handleErrorWithNull(() =>
-    querySingleRecord(
+    querySingleRecordWithJoin(
       accounts,
       {
         id: accounts.id,
         name: accounts.name,
         image: accounts.image,
-        description: accounts.description
+        description: accounts.description,
+        organization: {
+          id: organizations.id,
+          name: organizations.name,
+          slug: organizations.slug,
+          logo: organizations.logo
+        }
       },
       {
-        where: eq(accounts.id, accountId)
+        where: eq(accounts.id, accountId),
+        join: {
+          joinTable: organizations,
+          joinType: 'leftJoin',
+          joinQuery: eq(accounts.activeOrganizationId, organizations.id)
+        }
       }
     ).then(firstElement)
   )
@@ -70,7 +81,8 @@ const readAccountByUserIdAndProviderId = async (userId: string, providerId: stri
         id: accounts.id,
         userName: users.name,
         userImage: users.image,
-        userDescription: users.description
+        userDescription: users.description,
+        activeOrganizationId: accounts.activeOrganizationId
       },
       {
         where: and(eq(accounts.userId, userId), eq(accounts.providerId, providerId)),

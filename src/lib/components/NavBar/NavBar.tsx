@@ -1,5 +1,5 @@
 import { Link, useRouteContext, useRouter, useRouterState } from '@tanstack/react-router'
-import { Home, LogOut, Palmtree, User } from 'lucide-react'
+import { Home, House, LogOut, Palmtree, User } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { logoutSession } from '@/auth/utils/auth.utils'
 import { LanguageSwitcher } from '@/components/LanguageSwitcher/LanguageSwitcher'
@@ -12,6 +12,7 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuShortcut,
   DropdownMenuTrigger
 } from '@/ui/dropdown-menu'
@@ -44,7 +45,7 @@ const NavBar = () => {
                   <Button variant="secondary" size="icon" className="ml-3 cursor-pointer rounded-full">
                     <Avatar
                       key={user?.id}
-                      className="h-8 w-8 border-2 border-gray-200 bg-white dark:border-stone-800 dark:bg-neutral-800"
+                      className="h-8 w-8 border border-gray-200 bg-white dark:border-stone-800 dark:bg-neutral-800"
                     >
                       <AvatarImage src={user?.image ?? ''} />
                       <AvatarFallback>
@@ -55,6 +56,19 @@ const NavBar = () => {
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
+                  <Link to={routerState.location.pathname === ROUTES.PROFILE ? ROUTES.HOME : ROUTES.PROFILE}>
+                    <DropdownMenuItem className="cursor-pointer">
+                      {routerState.location.pathname === ROUTES.PROFILE ? t('Home') : t('Profile')}
+                      <DropdownMenuShortcut>
+                        {routerState.location.pathname === ROUTES.PROFILE ? (
+                          <House className="h-4 w-4" />
+                        ) : (
+                          <User className="h-4 w-4" />
+                        )}
+                      </DropdownMenuShortcut>
+                    </DropdownMenuItem>
+                  </Link>
+                  <DropdownMenuSeparator />
                   <DropdownMenuItem
                     className="cursor-pointer"
                     onClick={async () => {

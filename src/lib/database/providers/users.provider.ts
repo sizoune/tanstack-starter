@@ -7,7 +7,7 @@ import {
   queryMultipleRecords,
   querySingleRecordWithJoin,
   updateRecords
-} from '@/lib/database/utils/database.utils'
+} from '@/database/utils/database.utils'
 import type { UserPayload } from '@/types/user.type'
 import { firstElement } from '@/utils/array.utils'
 import { handleErrorWithArray, handleErrorWithNull } from '@/utils/function.utils'

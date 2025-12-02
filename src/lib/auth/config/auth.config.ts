@@ -2,7 +2,7 @@ import { createServerOnlyFn } from '@tanstack/react-start'
 import type { Session } from 'better-auth'
 import { betterAuth } from 'better-auth'
 import { drizzleAdapter } from 'better-auth/adapters/drizzle'
-import { customSession } from 'better-auth/plugins'
+import { customSession, organization } from 'better-auth/plugins'
 import { tanstackStartCookies } from 'better-auth/tanstack-start'
 import { database } from '@/database/config/database.config'
 import { readAccountByUserIdAndProviderId, updateAccounts } from '@/database/providers/accounts.provider'
@@ -18,13 +18,15 @@ const populateSessionAccount = async (session: Session, providerId: AuthProvider
   await updateAccounts(session.userId, [account.id], {
     name: account.userName,
     image: account.userImage,
-    description: account.userDescription
+    description: account.userDescription,
+    activeOrganizationId: account.activeOrganizationId
   })
 
   return {
     data: {
       ...session,
-      accountId: account.id
+      accountId: account.id,
+      activeOrganizationId: account.activeOrganizationId
     }
   }
 }
@@ -34,12 +36,18 @@ const auth = createServerOnlyFn(() =>
     baseURL: process.env.VITE_BASE_URL as string,
     plugins: [
       tanstackStartCookies(),
+      organization({
+        allowUserToCreateOrganization: async () => {
+          return false
+        }
+      }),
       customSession(async ({ user, session }) => {
         return {
           user,
           session: {
             ...session,
-            accountId: (session as typeof session & { accountId: string }).accountId
+            accountId: (session as typeof session & { accountId: string }).accountId,
+            activeOrganizationId: (session as typeof session & { activeOrganizationId: string }).activeOrganizationId
           }
         }
       })
@@ -75,6 +83,14 @@ const auth = createServerOnlyFn(() =>
       },
       additionalFields: {
         description: {
+          type: 'string',
+          required: false
+        }
+      }
+    },
+    account: {
+      additionalFields: {
+        activeOrganizationId: {
           type: 'string',
           required: false
         }
