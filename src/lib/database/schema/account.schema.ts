@@ -1,6 +1,7 @@
 import { sql } from 'drizzle-orm'
 import { pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core'
 import { UUID_V7_GENERATOR_FUNCTION } from '@/constants/database.constants'
+import { organizations } from '@/database/schema/organization.schema'
 import { users } from '@/database/schema/user.schema'
 
 const accounts = pgTable('accounts', {
@@ -23,7 +24,11 @@ const accounts = pgTable('accounts', {
   refreshTokenExpiresAt: timestamp('refresh_token_expires_at'),
   userId: uuid('user_id')
     .notNull()
-    .references(() => users.id, { onUpdate: 'cascade', onDelete: 'cascade' })
+    .references(() => users.id, { onUpdate: 'cascade', onDelete: 'cascade' }),
+  activeOrganizationId: uuid('active_organization_id').references(() => organizations.id, {
+    onUpdate: 'cascade',
+    onDelete: 'cascade'
+  })
 })
 
 export { accounts }
