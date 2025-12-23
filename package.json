@@ -28,7 +28,7 @@
     "format": "biome check --write .",
     "validate": "tsc && biome check .",
     "migrate:revert": "drizzle-kit drop",
-    "start": "node .output/server/index.mjs"
+    "start": "bun .output/server/index.mjs"
   },
   "dependencies": {
     "@radix-ui/react-avatar": "^1.1.11",

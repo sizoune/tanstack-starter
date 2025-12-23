@@ -2,7 +2,7 @@ import { createServerOnlyFn } from '@tanstack/react-start'
 import type { Session } from 'better-auth'
 import { betterAuth } from 'better-auth'
 import { drizzleAdapter } from 'better-auth/adapters/drizzle'
-import { customSession, organization } from 'better-auth/plugins'
+import { customSession } from 'better-auth/plugins'
 import { tanstackStartCookies } from 'better-auth/tanstack-start'
 import { database } from '@/database/config/database.config'
 import { readAccountByUserIdAndProviderId, updateAccounts } from '@/database/providers/accounts.provider'
@@ -36,11 +36,6 @@ const auth = createServerOnlyFn(() =>
     baseURL: process.env.VITE_BASE_URL as string,
     plugins: [
       tanstackStartCookies(),
-      organization({
-        allowUserToCreateOrganization: async () => {
-          return false
-        }
-      }),
       customSession(async ({ user, session }) => {
         return {
           user,
