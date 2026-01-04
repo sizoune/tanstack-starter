@@ -43,6 +43,11 @@
     ".env": true
   },
   "biome.enabled": true,
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll": "always",
+    "source.organizeImports": "always"
+  },
   "editor.defaultFormatter": "biomejs.biome",
   "typescript.tsdk": "./node_modules/typescript/lib",
   "[json][jsonc][typescript][typescriptreact][javascript][javascriptreact][html][css]": {
