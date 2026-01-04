@@ -2,11 +2,9 @@ import { createServerFn } from '@tanstack/react-start'
 import {
   deleteAccountController,
   getAccountController,
-  getAccountsByUserIdController,
   getAccountsController,
   updateAccountController
 } from '@/controllers/accounts.controller'
-import { deleteUserController } from '@/controllers/users.controller'
 import { authMiddleware } from '@/middleware/auth.middleware'
 
 const getAccounts = createServerFn({
@@ -29,7 +27,9 @@ const updateAccount = createServerFn({
   method: 'POST'
 })
   .middleware([authMiddleware])
-  .inputValidator((data: { activeOrganizationId: string }) => data)
+  .inputValidator((data: { activeOrganizationId: string }) => {
+    return data
+  })
   .handler(async ({ context, data }) => {
     return updateAccountController(context.user.accountId, context.user.id, {
       activeOrganizationId: data.activeOrganizationId
@@ -41,11 +41,7 @@ const deleteAccount = createServerFn({
 })
   .middleware([authMiddleware])
   .handler(async ({ context }) => {
-    const accounts = await getAccountsByUserIdController(context.user.id)
-
-    return accounts.length <= 1
-      ? deleteUserController(context.user.id)
-      : deleteAccountController(context.user.accountId)
+    return deleteAccountController(context.user.accountId, context.user.id)
   })
 
 export { deleteAccount, getAccount, getAccounts, updateAccount }

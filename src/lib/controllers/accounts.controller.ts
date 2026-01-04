@@ -6,6 +6,7 @@ import { users } from '@/database/schema/user.schema'
 import type { AccountPayload } from '@/types/account.type'
 import { firstElement } from '@/utils/array.utils'
 import { handleErrorWithArray, handleErrorWithNull } from '@/utils/function.utils'
+import { deleteUsers } from '../database/providers/users.provider'
 
 const getAccountsController = async (id: string) => {
   return handleErrorWithArray(() =>
@@ -19,20 +20,6 @@ const getAccountsController = async (id: string) => {
       },
       {
         where: not(eq(accounts.id, id))
-      }
-    )
-  )
-}
-
-const getAccountsByUserIdController = async (userId: string) => {
-  return handleErrorWithArray(() =>
-    selectAccounts(
-      {
-        id: accounts.id,
-        userId: accounts.userId
-      },
-      {
-        where: eq(accounts.userId, userId)
       }
     )
   )
@@ -99,17 +86,34 @@ const updateAccountController = async (
   )
 }
 
-const deleteAccountController = async (id: string) => {
-  return handleErrorWithNull(() =>
-    deleteAccounts({ where: eq(accounts.id, id) }, { id: accounts.id }).then(firstElement)
-  )
+const deleteAccountController = async (id: string, userId: string) => {
+  return handleErrorWithNull(async () => {
+    const existingAccounts = await selectAccounts(
+      {
+        id: accounts.id
+      },
+      {
+        where: eq(accounts.userId, userId)
+      }
+    )
+
+    return existingAccounts.length <= 1
+      ? deleteUsers(
+          {
+            where: eq(users.id, userId)
+          },
+          {
+            id: users.id
+          }
+        ).then(firstElement)
+      : deleteAccounts({ where: eq(accounts.id, id) }, { id: accounts.id }).then(firstElement)
+  })
 }
 
 export {
   deleteAccountController,
   getAccountByUserIdAndProviderIdController,
   getAccountController,
-  getAccountsByUserIdController,
   getAccountsController,
   updateAccountController
 }
