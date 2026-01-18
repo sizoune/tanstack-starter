@@ -34,15 +34,7 @@ const config = defineConfig(({ mode }) => {
         preset: env.VITE_NITRO_PRESET
       }),
       viteReact()
-    ],
-    optimizeDeps: {
-      exclude: [
-        '@tanstack/react-start',
-        '@tanstack/start-server-core',
-        '@tanstack/react-start/client',
-        '@tanstack/react-start/server'
-      ]
-    }
+    ]
   }
 })
 
